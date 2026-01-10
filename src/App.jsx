@@ -232,6 +232,7 @@ function App() {
   }
 
   // Start next round (go to ready phase)
+  // The team who was playing when round ended starts the next round
   function startNextRound() {
     const winner = checkGameWinner();
     if (winner) {
@@ -246,7 +247,7 @@ function App() {
     setTeam1RoundScore(0);
     setTeam2RoundScore(0);
     setTimeRemaining(duration);
-    setCurrentTeam(1);
+    // currentTeam stays as whoever was playing when round ended
     initializeWords();
     setGamePhase('ready');
   }
