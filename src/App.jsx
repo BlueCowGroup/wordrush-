@@ -135,6 +135,7 @@ function App() {
 
   // Handle correct guess
   function handleCorrect() {
+    initAudio(); // Keep audio context alive on iOS
     playSuccessSound();
 
     if (currentTeam() === 1) {
@@ -150,6 +151,7 @@ function App() {
 
   // Handle skip
   function handleSkip() {
+    initAudio(); // Keep audio context alive on iOS
     playSkipSound();
 
     if (currentTeam() === 1) {
