@@ -71,8 +71,8 @@ function App() {
     const used = usedWords();
     // Filter out used words
     const unusedWords = allWords.filter(word => !used.has(word));
-    // If we've used most words, reset the used set but keep current round's words
-    if (unusedWords.length < 10) {
+    // If we've used most words, reset the used set
+    if (unusedWords.length < 20) {
       setUsedWords(new Set());
       setAvailableWords(shuffleArray([...allWords]));
     } else {
@@ -87,7 +87,10 @@ function App() {
     setUsedWords(new Set()); // Reset used words for new game
     const duration = getRandomDuration();
     setRoundDuration(duration);
-    initializeWords();
+    // Initialize words after clearing used words
+    const allWords = getCategoryWords(selectedCategory());
+    setAvailableWords(shuffleArray([...allWords]));
+    setCurrentWordIndex(0);
     setTeam1RoundScore(0);
     setTeam2RoundScore(0);
     setTeam1Rounds(0);
@@ -172,28 +175,29 @@ function App() {
   function nextWord() {
     // Mark current word as used
     const word = currentWord();
+    let newUsedWords = usedWords();
     if (word) {
-      setUsedWords(prev => new Set([...prev, word]));
+      newUsedWords = new Set([...newUsedWords, word]);
+      setUsedWords(newUsedWords);
     }
 
-    setCurrentWordIndex(prev => {
-      const next = prev + 1;
-      if (next >= availableWords().length) {
-        // Get more words if we run out mid-round
-        const allWords = getCategoryWords(selectedCategory());
-        const used = usedWords();
-        const unusedWords = allWords.filter(w => !used.has(w));
-        if (unusedWords.length > 0) {
-          setAvailableWords(shuffleArray(unusedWords));
-        } else {
-          // All words used, reshuffle everything
-          setUsedWords(new Set());
-          setAvailableWords(shuffleArray([...allWords]));
-        }
-        return 0;
+    const next = currentWordIndex() + 1;
+    if (next >= availableWords().length) {
+      // Get more words if we run out mid-round
+      const allWords = getCategoryWords(selectedCategory());
+      // Use the updated set directly, not the signal
+      const unusedWords = allWords.filter(w => !newUsedWords.has(w));
+      if (unusedWords.length > 0) {
+        setAvailableWords(shuffleArray(unusedWords));
+      } else {
+        // All words used, reshuffle everything
+        setUsedWords(new Set());
+        setAvailableWords(shuffleArray([...allWords]));
       }
-      return next;
-    });
+      setCurrentWordIndex(0);
+    } else {
+      setCurrentWordIndex(next);
+    }
   }
 
   // End the current round
