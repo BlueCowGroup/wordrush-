@@ -1,11 +1,11 @@
-const CACHE_NAME = 'wordrush-v1';
+const CACHE_NAME = 'wordrush-v2';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon-192.svg',
-  '/icons/icon-512.svg',
-  '/icons/icon-maskable.svg'
+  './',
+  './index.html',
+  './manifest.json',
+  './icons/icon-192.svg',
+  './icons/icon-512.svg',
+  './icons/icon-maskable.svg'
 ];
 
 // Install event - cache assets
