@@ -5,7 +5,27 @@ function getAudioContext() {
   if (!audioContext) {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
   }
+  // Resume if suspended (browsers require user interaction)
+  if (audioContext.state === 'suspended') {
+    audioContext.resume();
+  }
   return audioContext;
+}
+
+// Initialize audio context - call on user interaction
+export function initAudio() {
+  const ctx = getAudioContext();
+  if (ctx.state === 'suspended') {
+    ctx.resume();
+  }
+  // Play a silent sound to fully unlock audio
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
+  oscillator.connect(gainNode);
+  gainNode.connect(ctx.destination);
+  gainNode.gain.setValueAtTime(0, ctx.currentTime);
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + 0.01);
 }
 
 // Play a beep sound with specified frequency and duration

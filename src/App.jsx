@@ -1,6 +1,7 @@
 import { createSignal, createEffect, onCleanup, Show, For } from 'solid-js';
 import { wordList, shuffleArray } from './words';
 import {
+  initAudio,
   playCountdownTick,
   playSuccessSound,
   playSkipSound,
@@ -15,7 +16,7 @@ const SKIP_PENALTY = 1;
 
 function App() {
   // Game state
-  const [gamePhase, setGamePhase] = createSignal('setup'); // setup, playing, roundEnd, gameOver
+  const [gamePhase, setGamePhase] = createSignal('setup'); // setup, ready, playing, roundEnd, gameOver
   const [team1Name, setTeam1Name] = createSignal('Team 1');
   const [team2Name, setTeam2Name] = createSignal('Team 2');
 
@@ -58,7 +59,7 @@ function App() {
     setCurrentWordIndex(0);
   }
 
-  // Start the game
+  // Start the game (go to ready phase)
   function startGame() {
     initializeWords();
     setTeam1RoundScore(0);
@@ -68,6 +69,12 @@ function App() {
     setRoundNumber(1);
     setCurrentTeam(1);
     setTimeRemaining(ROUND_DURATION);
+    setGamePhase('ready');
+  }
+
+  // Start the round (begin countdown)
+  function startRound() {
+    initAudio(); // Enable audio on user interaction
     setGamePhase('playing');
     startTimer();
   }
@@ -182,7 +189,7 @@ function App() {
     return null;
   }
 
-  // Start next round
+  // Start next round (go to ready phase)
   function startNextRound() {
     const winner = checkGameWinner();
     if (winner) {
@@ -197,8 +204,7 @@ function App() {
     setTimeRemaining(ROUND_DURATION);
     setCurrentTeam(1);
     initializeWords();
-    setGamePhase('playing');
-    startTimer();
+    setGamePhase('ready');
   }
 
   // Reset to setup
@@ -278,22 +284,56 @@ function App() {
         </div>
       </Show>
 
+      {/* Ready Phase - waiting to start round */}
+      <Show when={gamePhase() === 'ready'}>
+        <div class="ready-screen">
+          <div class="round-header">
+            <h2>Round {roundNumber()}</h2>
+          </div>
+
+          <div class="full-scoreboard">
+            <div class="full-team-score">
+              <span class="team-name">{team1Name()}</span>
+              <span class="rounds-won-large">{team1Rounds()}</span>
+              <span class="rounds-label">rounds won</span>
+            </div>
+            <div class="score-divider">
+              <span>vs</span>
+            </div>
+            <div class="full-team-score">
+              <span class="team-name">{team2Name()}</span>
+              <span class="rounds-won-large">{team2Rounds()}</span>
+              <span class="rounds-label">rounds won</span>
+            </div>
+          </div>
+
+          <div class="ready-info">
+            <p>First to {ROUNDS_TO_WIN} rounds wins!</p>
+            <p class="first-team">{currentTeamName()} goes first</p>
+          </div>
+
+          <button class="start-round-button" onClick={startRound}>
+            Start Round
+          </button>
+        </div>
+      </Show>
+
       {/* Playing Phase */}
       <Show when={gamePhase() === 'playing'}>
         <div class="game-screen">
           <div class="scoreboard">
             <div class={`team-score ${currentTeam() === 1 ? 'active' : ''}`}>
               <span class="team-name">{team1Name()}</span>
+              <span class="rounds-won-prominent">{team1Rounds()} - {team2Rounds()}</span>
               <span class="round-score">{team1RoundScore()} pts</span>
-              <span class="rounds-won">{team1Rounds()} rounds</span>
             </div>
             <div class="round-info">
               <span>Round {roundNumber()}</span>
             </div>
             <div class={`team-score ${currentTeam() === 2 ? 'active' : ''}`}>
               <span class="team-name">{team2Name()}</span>
+              <span class="rounds-won-prominent">{team2Rounds()} - {team1Rounds()}</span>
               <span class="round-score">{team2RoundScore()} pts</span>
-              <span class="rounds-won">{team2Rounds()} rounds</span>
             </div>
           </div>
 
