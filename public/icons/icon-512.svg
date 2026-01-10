@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="bubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#e0e7ff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="234" fill="url(#bgGrad)"/>
+
+  <!-- Speech bubble -->
+  <path d="M107 173 Q107 120 160 120 L352 120 Q405 120 405 173 L405 280 Q405 333 352 333 L227 333 L173 387 L187 333 L160 333 Q107 333 107 280 Z"
+        fill="url(#bubbleGrad)"
+        stroke="#6366f1"
+        stroke-width="8"/>
+
+  <!-- Letter W -->
+  <text x="256" y="270"
+        font-family="Arial Black, Arial, sans-serif"
+        font-size="140"
+        font-weight="900"
+        fill="#6366f1"
+        text-anchor="middle">W</text>
+
+  <!-- Speed lines (representing Rush) -->
+  <line x1="67" y1="187" x2="93" y2="187" stroke="#fbbf24" stroke-width="10" stroke-linecap="round"/>
+  <line x1="53" y1="227" x2="88" y2="227" stroke="#fbbf24" stroke-width="10" stroke-linecap="round"/>
+  <line x1="67" y1="267" x2="93" y2="267" stroke="#fbbf24" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Timer accent -->
+  <circle cx="413" cy="147" r="32" fill="#fbbf24"/>
+  <path d="M413 128 L413 147 L427 155" stroke="#0f0f23" stroke-width="6" stroke-linecap="round" fill="none"/>
+</svg>

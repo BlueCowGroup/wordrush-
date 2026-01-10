@@ -299,7 +299,7 @@ function App() {
   return (
     <div class="app">
       <header class="header">
-        <h1>WordRush</h1>
+        <h1>Word Rush</h1>
         <p class="subtitle">Team Word Guessing Game</p>
       </header>
 
