@@ -1,45 +1,104 @@
-// Word list for the game - common words that are fun to describe
-export const wordList = [
-  // Animals
-  "elephant", "penguin", "giraffe", "butterfly", "dolphin", "kangaroo", "octopus", "flamingo",
-  "rhinoceros", "cheetah", "peacock", "hedgehog", "salamander", "pelican", "armadillo",
+// Word categories for the game - each category has 40 words/phrases
 
-  // Food & Drink
-  "spaghetti", "pancake", "hamburger", "chocolate", "pineapple", "broccoli", "watermelon",
-  "sandwich", "popcorn", "milkshake", "pretzel", "burrito", "croissant", "avocado",
+export const categories = {
+  food: {
+    name: "Food & Drink",
+    icon: "🍔",
+    words: [
+      "spaghetti", "sushi", "tacos", "pizza", "hamburger",
+      "chocolate cake", "ice cream sundae", "french fries", "chicken wings", "lobster",
+      "avocado toast", "pad thai", "fish and chips", "burrito", "croissant",
+      "maple syrup", "buffalo wings", "cheese fondue", "apple pie", "ramen",
+      "pancakes", "eggs benedict", "grilled cheese", "hot dog", "nachos",
+      "cheesecake", "fried rice", "clam chowder", "beef jerky", "spring rolls",
+      "milkshake", "espresso", "smoothie bowl", "barbecue ribs", "crab cakes",
+      "banana split", "garlic bread", "onion rings", "Caesar salad", "tiramisu"
+    ]
+  },
 
-  // Objects
-  "umbrella", "telescope", "trampoline", "chandelier", "skateboard", "hammock", "lighthouse",
-  "escalator", "microwave", "parachute", "submarine", "accordion", "wheelbarrow", "helicopter",
+  sports: {
+    name: "Sports & Games",
+    icon: "⚽",
+    words: [
+      "slam dunk", "home run", "touchdown", "hole in one", "checkmate",
+      "penalty kick", "triple axel", "slam dunk", "grand slam", "hat trick",
+      "free throw", "volleyball spike", "gymnastics", "marathon", "wrestling",
+      "surfing", "skateboarding", "snowboarding", "rock climbing", "scuba diving",
+      "archery", "fencing", "bowling strike", "ping pong", "badminton",
+      "rugby tackle", "baseball pitch", "golf swing", "tennis serve", "relay race",
+      "pole vault", "high jump", "swimming butterfly", "boxing knockout", "karate",
+      "billiards", "darts", "horseback riding", "water polo", "rowing"
+    ]
+  },
 
-  // Activities
-  "swimming", "juggling", "yodeling", "skydiving", "snorkeling", "gardening", "camping",
-  "bowling", "surfing", "karaoke", "meditation", "knitting", "skateboarding", "gymnastics",
+  culture: {
+    name: "Culture & Arts",
+    icon: "🎭",
+    words: [
+      "Mona Lisa", "ballet dancer", "jazz music", "street art", "origami",
+      "opera singer", "symphony orchestra", "abstract painting", "pottery wheel", "Shakespeare",
+      "hip hop dance", "oil painting", "sculpture garden", "mime artist", "graffiti",
+      "folk music", "stand-up comedy", "magic show", "puppet show", "circus act",
+      "tap dancing", "breakdancing", "acoustic guitar", "drum solo", "piano recital",
+      "art gallery", "museum exhibit", "theater play", "book club", "poetry slam",
+      "film noir", "documentary", "animation", "photography", "calligraphy",
+      "mosaic art", "stained glass", "woodcarving", "fashion design", "beatboxing"
+    ]
+  },
 
-  // Places
-  "volcano", "pyramid", "waterfall", "hospital", "library", "airport", "museum",
-  "aquarium", "stadium", "carnival", "laboratory", "planetarium", "cathedral", "treehouse",
+  world: {
+    name: "World & Travel",
+    icon: "🌍",
+    words: [
+      "Eiffel Tower", "Great Wall", "pyramids of Egypt", "Amazon rainforest", "Northern Lights",
+      "Mount Everest", "Grand Canyon", "Niagara Falls", "Great Barrier Reef", "Sahara Desert",
+      "Tokyo subway", "Venice canals", "African safari", "tropical island", "ancient ruins",
+      "hot air balloon", "cruise ship", "passport stamp", "time zone", "jet lag",
+      "world map", "compass", "backpacking", "road trip", "train station",
+      "Statue of Liberty", "Big Ben", "Colosseum", "Taj Mahal", "Machu Picchu",
+      "Sydney Opera House", "Golden Gate Bridge", "Mount Fuji", "Stonehenge", "windmill",
+      "pagoda", "castle", "lighthouse", "volcano", "glacier"
+    ]
+  },
 
-  // Concepts & Abstract
-  "nightmare", "vacation", "birthday", "thunderstorm", "earthquake", "rainbow", "avalanche",
-  "celebration", "adventure", "discovery", "imagination", "expedition", "revolution", "mystery",
+  entertainment: {
+    name: "Entertainment",
+    icon: "🎬",
+    words: [
+      "binge watching", "plot twist", "cliffhanger", "viral video", "podcast",
+      "reality TV", "game show", "talk show", "music festival", "concert",
+      "red carpet", "box office", "sequel", "remake", "streaming",
+      "superhero movie", "romantic comedy", "horror film", "animated movie", "documentary",
+      "video game", "arcade", "karaoke", "escape room", "theme park",
+      "roller coaster", "haunted house", "magic trick", "juggling", "fireworks",
+      "talent show", "dance battle", "lip sync", "flash mob", "photo booth",
+      "trivia night", "board game", "card game", "puzzle", "scavenger hunt"
+    ]
+  },
 
-  // Occupations
-  "astronaut", "detective", "magician", "firefighter", "surgeon", "architect", "scientist",
-  "musician", "photographer", "mechanic", "librarian", "veterinarian", "conductor", "pilot",
+  celebrities: {
+    name: "Famous People",
+    icon: "⭐",
+    words: [
+      "movie star", "rock star", "pop singer", "rapper", "comedian",
+      "talk show host", "news anchor", "sports legend", "Olympic athlete", "world champion",
+      "fashion model", "supermodel", "influencer", "YouTuber", "TikTok star",
+      "billionaire", "tech mogul", "inventor", "scientist", "astronaut",
+      "president", "royal family", "prince", "princess", "queen",
+      "chef celebrity", "TV chef", "author", "playwright", "director",
+      "producer", "DJ", "choreographer", "magician", "stunt performer",
+      "voice actor", "child star", "one-hit wonder", "power couple", "icon"
+    ]
+  }
+};
 
-  // Nature
-  "tornado", "glacier", "hurricane", "lightning", "sunrise", "moonlight", "blizzard",
-  "meadow", "canyon", "jungle", "desert", "island", "mountain", "forest",
+// Get array of category keys
+export const categoryKeys = Object.keys(categories);
 
-  // Entertainment
-  "concert", "circus", "cartoon", "comedy", "magic", "parade", "festival",
-  "theater", "orchestra", "ballet", "opera", "carnival", "fireworks", "rodeo",
-
-  // Miscellaneous
-  "bubble", "shadow", "whisper", "sparkle", "puzzle", "treasure", "secret",
-  "adventure", "journey", "mystery", "legend", "miracle", "wonder", "dream"
-];
+// Get words for a specific category
+export function getCategoryWords(categoryKey) {
+  return categories[categoryKey]?.words || [];
+}
 
 // Shuffle array using Fisher-Yates algorithm
 export function shuffleArray(array) {

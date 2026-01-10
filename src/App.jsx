@@ -1,5 +1,5 @@
 import { createSignal, createEffect, onCleanup, Show, For } from 'solid-js';
-import { wordList, shuffleArray } from './words';
+import { categories, categoryKeys, getCategoryWords, shuffleArray } from './words';
 import {
   initAudio,
   playCountdownTick,
@@ -19,6 +19,7 @@ function App() {
   const [gamePhase, setGamePhase] = createSignal('setup'); // setup, ready, playing, roundEnd, gameOver
   const [team1Name, setTeam1Name] = createSignal('Team 1');
   const [team2Name, setTeam2Name] = createSignal('Team 2');
+  const [selectedCategory, setSelectedCategory] = createSignal('food');
 
   // Round state
   const [timeRemaining, setTimeRemaining] = createSignal(ROUND_DURATION);
@@ -44,6 +45,9 @@ function App() {
   // Get current team name
   const currentTeamName = () => currentTeam() === 1 ? team1Name() : team2Name();
 
+  // Get current category info
+  const currentCategoryInfo = () => categories[selectedCategory()];
+
   // Get urgency level based on time remaining
   const urgencyLevel = () => {
     const time = timeRemaining();
@@ -55,7 +59,8 @@ function App() {
 
   // Initialize words for a new round
   function initializeWords() {
-    setAvailableWords(shuffleArray(wordList));
+    const words = getCategoryWords(selectedCategory());
+    setAvailableWords(shuffleArray(words));
     setCurrentWordIndex(0);
   }
 
@@ -266,6 +271,24 @@ function App() {
               />
             </div>
           </div>
+
+          <div class="category-selection">
+            <h3>Choose a Category</h3>
+            <div class="category-grid">
+              <For each={categoryKeys}>
+                {(key) => (
+                  <button
+                    class={`category-button ${selectedCategory() === key ? 'selected' : ''}`}
+                    onClick={() => setSelectedCategory(key)}
+                  >
+                    <span class="category-icon">{categories[key].icon}</span>
+                    <span class="category-name">{categories[key].name}</span>
+                  </button>
+                )}
+              </For>
+            </div>
+          </div>
+
           <div class="rules">
             <h3>How to Play</h3>
             <ul>
