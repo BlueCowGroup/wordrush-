@@ -139,33 +139,33 @@ export const categories = {
     name: "Entertainment",
     icon: "🎬",
     words: [
-      // Movies & TV
-      "movie", "TV show", "sitcom", "cartoon", "anime",
-      "reality TV", "game show", "talk show", "news", "documentary",
-      "sequel", "remake", "trailer", "credits", "blooper",
-      "plot twist", "cliffhanger", "spoiler", "binge watching", "streaming",
-      // Streaming & Media
-      "Netflix", "YouTube", "TikTok", "Instagram", "Snapchat",
-      "podcast", "vlog", "live stream", "viral video", "meme",
-      "hashtag", "follower", "subscriber", "like button", "comment",
-      // Gaming
-      "video game", "console", "controller", "multiplayer", "single player",
-      "boss fight", "power up", "extra life", "high score", "game over",
-      "Minecraft", "Fortnite", "Mario", "Pokemon", "Zelda",
-      "Xbox", "PlayStation", "Nintendo", "PC gaming", "mobile game",
-      // Music Entertainment
-      "concert", "music festival", "DJ", "karaoke", "dance party",
-      "album release", "music award", "Grammy", "number one hit", "radio",
-      // Live Entertainment
-      "circus", "magic show", "comedy club", "stand up comedy", "improv",
-      "theme park", "roller coaster", "water park", "haunted house", "escape room",
-      "carnival", "fair", "parade", "fireworks", "talent show",
-      // Celebrities
-      "celebrity", "famous", "paparazzi", "red carpet", "autograph",
-      "fan", "fanbase", "meet and greet", "VIP", "backstage",
-      // Awards
-      "Oscar", "Emmy", "Grammy", "award show", "acceptance speech",
-      "nominee", "winner", "trophy", "hall of fame", "standing ovation"
+      // Classic Movies
+      "Titanic", "The Lion King", "Jurassic Park", "Forrest Gump", "The Wizard of Oz",
+      "Star Wars", "E.T.", "Jaws", "Back to the Future", "Ghostbusters",
+      "The Godfather", "Toy Story", "Finding Nemo", "Shrek", "Frozen",
+      "The Avengers", "Spider-Man", "Batman", "Harry Potter", "Lord of the Rings",
+      "The Matrix", "Gladiator", "Rocky", "Grease", "The Breakfast Club",
+      "Home Alone", "Mean Girls", "Clueless", "Legally Blonde", "The Notebook",
+      // TV Shows
+      "Friends", "The Office", "Stranger Things", "Game of Thrones", "Breaking Bad",
+      "The Simpsons", "SpongeBob SquarePants", "South Park", "Family Guy", "Rick and Morty",
+      "Grey's Anatomy", "The Walking Dead", "Squid Game", "Wednesday", "Ted Lasso",
+      "Seinfeld", "How I Met Your Mother", "Parks and Recreation", "Brooklyn Nine-Nine", "The Big Bang Theory",
+      // Popular Songs
+      "Thriller", "Bohemian Rhapsody", "Imagine", "Hey Jude", "Like a Prayer",
+      "Billie Jean", "Purple Rain", "Sweet Home Alabama", "Hotel California", "Stairway to Heaven",
+      "Happy", "Uptown Funk", "Shape of You", "Old Town Road", "Bad Guy",
+      "Rolling in the Deep", "Someone Like You", "Shake It Off", "Blinding Lights", "Despacito",
+      // Video Games
+      "Minecraft", "Fortnite", "Mario Kart", "Grand Theft Auto", "Call of Duty",
+      "Pokemon", "Zelda", "Super Smash Bros", "Tetris", "Pac-Man",
+      "Roblox", "Among Us", "FIFA", "Madden", "NBA 2K",
+      // Musicals & Broadway
+      "Hamilton", "The Phantom of the Opera", "Wicked", "Les Miserables", "The Lion King Musical",
+      "Cats", "Chicago", "Grease", "Mamma Mia", "Dear Evan Hansen",
+      // Reality Shows
+      "American Idol", "The Voice", "Survivor", "The Bachelor", "Dancing with the Stars",
+      "America's Got Talent", "Big Brother", "Keeping Up with the Kardashians", "RuPaul's Drag Race", "MasterChef"
     ]
   },
   celebrities: {
