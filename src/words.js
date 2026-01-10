@@ -197,39 +197,48 @@ export const categories = {
     name: "Famous People",
     icon: "⭐",
     words: [
-      // Types of Fame
-      "hollywood movie star actor", "television sitcom personality", "chart topping pop musician", "bestselling fiction author",
-      "legendary hall of fame athlete", "world leader politician", "tech billionaire entrepreneur", "silicon valley startup founder",
-      "haute couture fashion designer", "supermodel runway victoria secret", "celebrity michelin chef", "late night talk show host",
-      "stand up touring comedian", "social media mega influencer", "youtube millionaire sensation", "reality tv breakout star",
-      "true crime podcast host", "professional gaming streamer", "viral internet meme personality", "former child star actor",
+      // Actors & Entertainers
+      "Tom Hanks", "Meryl Streep", "Leonardo DiCaprio", "Denzel Washington",
+      "Morgan Freeman", "Julia Roberts", "Brad Pitt", "Angelina Jolie",
+      "Johnny Depp", "Will Smith", "Jennifer Lawrence", "Robert Downey Jr",
+      "Scarlett Johansson", "Dwayne Johnson", "Tom Cruise", "Nicole Kidman",
+      "George Clooney", "Sandra Bullock", "Matt Damon", "Anne Hathaway",
+      "Keanu Reeves", "Natalie Portman", "Samuel L Jackson", "Cate Blanchett",
+      // Musicians
+      "Taylor Swift", "Beyoncé", "Michael Jackson", "Elvis Presley",
+      "Madonna", "Prince", "David Bowie", "Freddie Mercury",
+      "Bob Dylan", "Bruce Springsteen", "Elton John", "Stevie Wonder",
+      "Whitney Houston", "Aretha Franklin", "Adele", "Ed Sheeran",
+      "Drake", "Kanye West", "Jay-Z", "Rihanna",
+      "Lady Gaga", "Bruno Mars", "Justin Timberlake", "Billie Eilish",
       // Historical Figures
-      "american founding father", "civil rights movement leader", "french revolutionary figure", "ancient greek philosopher",
-      "renaissance master artist", "classical symphony composer", "nobel prize winning scientist", "pulitzer literary author",
-      "decorated military general commander", "european royal monarch ruler", "world religion spiritual leader", "age of exploration navigator",
-      "industrial revolution pioneer", "wright brothers aviation pioneer", "apollo moon landing astronaut", "peace prize humanitarian winner",
-      // Modern Icons
-      "pop culture defining icon", "fashion trendsetting influencer", "fitness transformation guru", "wellness lifestyle coach",
-      "ted talk motivational speaker", "self improvement life coach", "celebrity relationship therapist expert", "financial investing advisor guru",
-      "self help bestselling author", "investigative journalism reporter", "cable news network anchor", "sports broadcasting analyst commentator",
-      // Entertainment Roles
-      "leading man actor oscar", "supporting actress academy award", "animated voice over actor", "dangerous stunt double performer",
-      "auteur film director visionary", "hit making music producer", "celebrity dance choreographer", "powerful hollywood talent agent",
-      "influential casting director", "emmy winning screenwriter showrunner", "cinematographer oscar winner", "costume designer period piece",
-      // Music Industry Figures
-      "rock and roll legend guitarist", "teen pop princess singer", "hip hop mogul music producer", "nashville country music star",
-      "smooth jazz virtuoso saxophonist", "philharmonic orchestra conductor", "electronic dance dj producer", "nineties boyband heartthrob member",
-      "one hit wonder flash singer", "successful comeback touring artist", "genre crossover fusion artist", "grammy duet partners collaboration",
-      // Sports Figures
-      "super bowl mvp quarterback", "wimbledon grand slam tennis champion", "world cup golden boot soccer", "summer olympics gold medalist",
-      "heavyweight boxing world champion", "formula one racing world champion", "masters tournament professional golfer", "nba finals mvp basketball legend",
-      "cooperstown baseball hall of famer", "stanley cup hockey champion", "wwe wrestling entertainment champion", "x games extreme sports gold medalist",
+      "Abraham Lincoln", "George Washington", "Winston Churchill", "Nelson Mandela",
+      "Martin Luther King Jr", "Mahatma Gandhi", "Albert Einstein", "Isaac Newton",
+      "Charles Darwin", "Marie Curie", "Leonardo da Vinci", "Michelangelo",
+      "William Shakespeare", "Cleopatra", "Julius Caesar", "Napoleon Bonaparte",
+      "Queen Victoria", "Benjamin Franklin", "Thomas Edison", "Alexander the Great",
+      // Athletes
+      "Michael Jordan", "LeBron James", "Serena Williams", "Tiger Woods",
+      "Muhammad Ali", "Babe Ruth", "Wayne Gretzky", "Tom Brady",
+      "Usain Bolt", "Michael Phelps", "Simone Biles", "Lionel Messi",
+      "Cristiano Ronaldo", "Kobe Bryant", "Derek Jeter", "Roger Federer",
+      "Shaquille O'Neal", "Venus Williams", "David Beckham", "Mike Tyson",
       // Business & Tech
-      "silicon valley unicorn founder", "wall street hedge fund titan", "commercial real estate tycoon", "media conglomerate empire mogul",
-      "fashion house luxury empire founder", "fast food restaurant chain founder", "hospitality hotel chain magnate", "cryptocurrency bitcoin billionaire",
-      // Other Famous Types
-      "international space station astronaut", "titanic wreck deep sea explorer", "endangered wildlife conservationist activist", "climate change environmental activist",
-      "global humanitarian philanthropist billionaire", "united nations goodwill ambassador", "british royal family member", "white house first lady spouse"
+      "Elon Musk", "Jeff Bezos", "Bill Gates", "Steve Jobs",
+      "Mark Zuckerberg", "Oprah Winfrey", "Warren Buffett", "Walt Disney",
+      // World Leaders & Politics
+      "Barack Obama", "Joe Biden", "Donald Trump", "Queen Elizabeth II",
+      "Princess Diana", "Pope Francis", "Dalai Lama", "Angela Merkel",
+      // TV Personalities & Comedians
+      "Ellen DeGeneres", "Jimmy Fallon", "Conan O'Brien", "David Letterman",
+      "Jerry Seinfeld", "Chris Rock", "Eddie Murphy", "Robin Williams",
+      "Jim Carrey", "Steve Martin", "Tina Fey", "Amy Poehler",
+      // Directors & Filmmakers
+      "Steven Spielberg", "Martin Scorsese", "Quentin Tarantino", "Christopher Nolan",
+      "James Cameron", "Alfred Hitchcock", "Stanley Kubrick", "Spike Lee",
+      // Authors & Thinkers
+      "Stephen King", "J.K. Rowling", "Ernest Hemingway", "Mark Twain",
+      "Maya Angelou", "Toni Morrison", "Stephen Hawking", "Neil deGrasse Tyson"
     ]
   }
 };
