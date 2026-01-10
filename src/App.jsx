@@ -199,6 +199,16 @@ function App() {
     stopTimer();
     playRoundEndSound();
 
+    // Team whose turn it is when timer ends loses 1 point
+    if (currentTeam() === 1) {
+      setTeam1RoundScore(prev => prev - 1);
+    } else {
+      setTeam2RoundScore(prev => prev - 1);
+    }
+
+    // Switch to other team - they will start next round
+    switchTeam();
+
     const t1Score = team1RoundScore();
     const t2Score = team2RoundScore();
 
@@ -232,7 +242,7 @@ function App() {
   }
 
   // Start next round (go to ready phase)
-  // The team who was playing when round ended starts the next round
+  // The OTHER team (not the one playing when round ended) starts next round
   function startNextRound() {
     const winner = checkGameWinner();
     if (winner) {
@@ -247,7 +257,7 @@ function App() {
     setTeam1RoundScore(0);
     setTeam2RoundScore(0);
     setTimeRemaining(duration);
-    // currentTeam stays as whoever was playing when round ended
+    // currentTeam was already switched in endRound()
     initializeWords();
     setGamePhase('ready');
   }
