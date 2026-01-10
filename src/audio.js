@@ -90,7 +90,10 @@ export async function playBeep(frequency = 440, duration = 0.1, volume = 0.3) {
   }
 }
 
-// Play countdown tick - simplified for iOS reliability
+// Track last tick time for rate limiting at start
+let lastTickSecond = -1;
+
+// Play countdown tick - rate increases from 0.5/sec to 3/sec
 export async function playCountdownTick(secondsRemaining, totalDuration = 60) {
   if (secondsRemaining <= 0) return;
   if (!await ensureAudioReady()) return;
@@ -101,57 +104,58 @@ export async function playCountdownTick(secondsRemaining, totalDuration = 60) {
     // Calculate urgency (0 = start, 1 = end)
     const urgency = 1 - (secondsRemaining / totalDuration);
 
+    // Ticks per second: 0.5 at start, 3 at end
+    const ticksPerSecond = 0.5 + (urgency * 2.5);
+
+    // At start (ticksPerSecond < 1), skip every other second
+    if (ticksPerSecond < 1) {
+      // Play only on even seconds to achieve ~0.5 ticks/sec
+      if (secondsRemaining % 2 !== 0) {
+        return; // Skip this second
+      }
+    }
+
     // Frequency increases with urgency (400Hz to 800Hz)
     const frequency = 400 + (urgency * 400);
 
     // Volume increases with urgency (0.2 to 0.5)
     const volume = 0.2 + (urgency * 0.3);
 
-    // Duration gets shorter (100ms to 60ms)
-    const duration = 0.1 - (urgency * 0.04);
+    // Duration gets shorter (100ms to 50ms)
+    const duration = 0.1 - (urgency * 0.05);
 
     // Haptic feedback (Android only)
     const vibeDuration = Math.floor(20 + (urgency * 30));
     vibrate(vibeDuration);
 
-    // Single reliable beep
-    const oscillator = ctx.createOscillator();
-    const gainNode = ctx.createGain();
-
-    oscillator.connect(gainNode);
-    gainNode.connect(ctx.destination);
-
-    oscillator.frequency.value = frequency;
-    oscillator.type = 'sine';
-
     const now = ctx.currentTime;
-    gainNode.gain.setValueAtTime(volume, now);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, now + duration);
 
-    oscillator.start(now);
-    oscillator.stop(now + duration + 0.05);
+    // Calculate how many beeps to play this second
+    const numBeeps = Math.max(1, Math.round(ticksPerSecond));
+    const interval = numBeeps > 1 ? 1.0 / numBeeps : 0;
 
-    // Add extra beeps for high urgency (last 15 seconds)
-    if (secondsRemaining <= 15) {
-      const extraBeeps = secondsRemaining <= 5 ? 2 : 1;
-      for (let i = 1; i <= extraBeeps; i++) {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
+    // Schedule beeps spread across this second
+    for (let i = 0; i < numBeeps; i++) {
+      const oscillator = ctx.createOscillator();
+      const gainNode = ctx.createGain();
 
-        osc.frequency.value = frequency + (i * 100);
-        osc.type = 'sine';
+      oscillator.connect(gainNode);
+      gainNode.connect(ctx.destination);
 
-        const startTime = now + (i * 0.08);
-        gain.gain.setValueAtTime(0, now);
-        gain.gain.setValueAtTime(volume * 0.8, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration * 0.8);
+      // Slightly vary frequency for each beep in rapid succession
+      oscillator.frequency.value = frequency + (i * 20);
+      oscillator.type = 'sine';
 
-        osc.start(now);
-        osc.stop(startTime + duration + 0.05);
-      }
+      const startTime = now + (i * interval);
+      gainNode.gain.setValueAtTime(0, now);
+      gainNode.gain.setValueAtTime(volume, startTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+
+      oscillator.start(now);
+      oscillator.stop(startTime + duration + 0.05);
     }
+
+    lastTickSecond = secondsRemaining;
   } catch (e) {
     console.warn('Tick audio failed:', e);
   }
