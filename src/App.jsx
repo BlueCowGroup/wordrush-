@@ -66,6 +66,7 @@ function App() {
 
   // Start the game (go to ready phase)
   function startGame() {
+    initAudio(); // Try to unlock audio early on iOS
     initializeWords();
     setTeam1RoundScore(0);
     setTeam2RoundScore(0);
