@@ -8,7 +8,7 @@ import {
   playWinSound
 } from './audio';
 
-const ROUND_DURATION = 90; // seconds
+const ROUND_DURATION = 60; // seconds
 const ROUNDS_TO_WIN = 7;
 const POINTS_PER_CORRECT = 2;
 const SKIP_PENALTY = 1;
@@ -80,7 +80,7 @@ function App() {
       setTimeRemaining(prev => {
         const newTime = prev - 1;
         if (newTime > 0) {
-          playCountdownTick(newTime);
+          playCountdownTick(newTime, ROUND_DURATION);
         }
         if (newTime <= 0) {
           endRound();
@@ -266,7 +266,7 @@ function App() {
               <li>One player sees a word and describes it to teammates</li>
               <li>Correct guess = <strong>+2 points</strong>, then pass to other team</li>
               <li>Skip a word = <strong>-1 point</strong></li>
-              <li>90 seconds per round</li>
+              <li>60 seconds per round</li>
               <li>Highest score wins the round</li>
               <li>Tie with positive scores = both teams get a round point</li>
               <li>First to <strong>7 rounds</strong> (and ahead) wins!</li>
