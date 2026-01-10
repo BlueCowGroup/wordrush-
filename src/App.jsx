@@ -9,10 +9,16 @@ import {
   playWinSound
 } from './audio';
 
-const ROUND_DURATION = 60; // seconds
+const MIN_ROUND_DURATION = 60; // seconds
+const MAX_ROUND_DURATION = 90; // seconds
 const ROUNDS_TO_WIN = 7;
 const POINTS_PER_CORRECT = 2;
 const SKIP_PENALTY = 1;
+
+// Get random duration between min and max
+function getRandomDuration() {
+  return Math.floor(Math.random() * (MAX_ROUND_DURATION - MIN_ROUND_DURATION + 1)) + MIN_ROUND_DURATION;
+}
 
 function App() {
   // Game state
@@ -22,7 +28,8 @@ function App() {
   const [selectedCategory, setSelectedCategory] = createSignal('food');
 
   // Round state
-  const [timeRemaining, setTimeRemaining] = createSignal(ROUND_DURATION);
+  const [roundDuration, setRoundDuration] = createSignal(getRandomDuration());
+  const [timeRemaining, setTimeRemaining] = createSignal(roundDuration());
   const [currentTeam, setCurrentTeam] = createSignal(1); // 1 or 2
   const [team1RoundScore, setTeam1RoundScore] = createSignal(0);
   const [team2RoundScore, setTeam2RoundScore] = createSignal(0);
@@ -32,8 +39,9 @@ function App() {
   const [team2Rounds, setTeam2Rounds] = createSignal(0);
   const [roundNumber, setRoundNumber] = createSignal(1);
 
-  // Word state
+  // Word state - track used words to prevent repetition
   const [availableWords, setAvailableWords] = createSignal([]);
+  const [usedWords, setUsedWords] = createSignal(new Set());
   const [currentWordIndex, setCurrentWordIndex] = createSignal(0);
 
   // Timer interval reference
@@ -57,16 +65,28 @@ function App() {
     return 'low';
   };
 
-  // Initialize words for a new round
+  // Initialize words for a new round (excludes already used words)
   function initializeWords() {
-    const words = getCategoryWords(selectedCategory());
-    setAvailableWords(shuffleArray(words));
+    const allWords = getCategoryWords(selectedCategory());
+    const used = usedWords();
+    // Filter out used words
+    const unusedWords = allWords.filter(word => !used.has(word));
+    // If we've used most words, reset the used set but keep current round's words
+    if (unusedWords.length < 10) {
+      setUsedWords(new Set());
+      setAvailableWords(shuffleArray([...allWords]));
+    } else {
+      setAvailableWords(shuffleArray(unusedWords));
+    }
     setCurrentWordIndex(0);
   }
 
   // Start the game (go to ready phase)
   function startGame() {
     initAudio(); // Try to unlock audio early on iOS
+    setUsedWords(new Set()); // Reset used words for new game
+    const duration = getRandomDuration();
+    setRoundDuration(duration);
     initializeWords();
     setTeam1RoundScore(0);
     setTeam2RoundScore(0);
@@ -74,7 +94,7 @@ function App() {
     setTeam2Rounds(0);
     setRoundNumber(1);
     setCurrentTeam(1);
-    setTimeRemaining(ROUND_DURATION);
+    setTimeRemaining(duration);
     setGamePhase('ready');
   }
 
@@ -88,12 +108,13 @@ function App() {
   // Start the timer
   function startTimer() {
     if (timerInterval) clearInterval(timerInterval);
+    const duration = roundDuration();
 
     timerInterval = setInterval(() => {
       setTimeRemaining(prev => {
         const newTime = prev - 1;
         if (newTime > 0) {
-          playCountdownTick(newTime, ROUND_DURATION);
+          playCountdownTick(newTime, duration);
         }
         if (newTime <= 0) {
           endRound();
@@ -147,11 +168,26 @@ function App() {
 
   // Move to next word
   function nextWord() {
+    // Mark current word as used
+    const word = currentWord();
+    if (word) {
+      setUsedWords(prev => new Set([...prev, word]));
+    }
+
     setCurrentWordIndex(prev => {
       const next = prev + 1;
       if (next >= availableWords().length) {
-        // Reshuffle if we run out
-        setAvailableWords(shuffleArray(wordList));
+        // Get more words if we run out mid-round
+        const allWords = getCategoryWords(selectedCategory());
+        const used = usedWords();
+        const unusedWords = allWords.filter(w => !used.has(w));
+        if (unusedWords.length > 0) {
+          setAvailableWords(shuffleArray(unusedWords));
+        } else {
+          // All words used, reshuffle everything
+          setUsedWords(new Set());
+          setAvailableWords(shuffleArray([...allWords]));
+        }
         return 0;
       }
       return next;
@@ -204,10 +240,12 @@ function App() {
       return;
     }
 
+    const duration = getRandomDuration();
+    setRoundDuration(duration);
     setRoundNumber(prev => prev + 1);
     setTeam1RoundScore(0);
     setTeam2RoundScore(0);
-    setTimeRemaining(ROUND_DURATION);
+    setTimeRemaining(duration);
     setCurrentTeam(1);
     initializeWords();
     setGamePhase('ready');
@@ -258,7 +296,8 @@ function App() {
               <input
                 type="text"
                 value={team1Name()}
-                onInput={(e) => setTeam1Name(e.target.value || 'Team 1')}
+                onInput={(e) => setTeam1Name(e.target.value)}
+                onBlur={(e) => { if (!e.target.value.trim()) setTeam1Name('Team 1'); }}
                 placeholder="Team 1"
               />
             </div>
@@ -267,7 +306,8 @@ function App() {
               <input
                 type="text"
                 value={team2Name()}
-                onInput={(e) => setTeam2Name(e.target.value || 'Team 2')}
+                onInput={(e) => setTeam2Name(e.target.value)}
+                onBlur={(e) => { if (!e.target.value.trim()) setTeam2Name('Team 2'); }}
                 placeholder="Team 2"
               />
             </div>
@@ -296,7 +336,7 @@ function App() {
               <li>One player sees a word and describes it to teammates</li>
               <li>Correct guess = <strong>+2 points</strong>, then pass to other team</li>
               <li>Skip a word = <strong>-1 point</strong></li>
-              <li>60 seconds per round</li>
+              <li>Random time limit: <strong>60-90 seconds</strong> per round</li>
               <li>Highest score wins the round</li>
               <li>Tie with positive scores = both teams get a round point</li>
               <li>First to <strong>7 rounds</strong> (and ahead) wins!</li>
@@ -332,6 +372,7 @@ function App() {
           </div>
 
           <div class="ready-info">
+            <p class="round-time">This round: <strong>{roundDuration()} seconds</strong></p>
             <p>First to {ROUNDS_TO_WIN} rounds wins!</p>
             <p class="first-team">{currentTeamName()} goes first</p>
           </div>
