@@ -1,11 +1,38 @@
-// Audio utilities for countdown sounds using Web Audio API
+// Audio and haptic feedback utilities
 let audioContext = null;
 
 function getAudioContext() {
   if (!audioContext) {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
   }
+  // Resume if suspended (browsers require user interaction)
+  if (audioContext.state === 'suspended') {
+    audioContext.resume();
+  }
   return audioContext;
+}
+
+// Haptic feedback helper - vibrates if supported
+function vibrate(pattern) {
+  if (navigator.vibrate) {
+    navigator.vibrate(pattern);
+  }
+}
+
+// Initialize audio context - call on user interaction
+export function initAudio() {
+  const ctx = getAudioContext();
+  if (ctx.state === 'suspended') {
+    ctx.resume();
+  }
+  // Play a silent sound to fully unlock audio
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
+  oscillator.connect(gainNode);
+  gainNode.connect(ctx.destination);
+  gainNode.gain.setValueAtTime(0, ctx.currentTime);
+  oscillator.start(ctx.currentTime);
+  oscillator.stop(ctx.currentTime + 0.01);
 }
 
 // Play a beep sound with specified frequency and duration
@@ -58,6 +85,22 @@ export function playCountdownTick(secondsRemaining, totalDuration = 60) {
     // Duration of each beep
     const beepDuration = 0.08 - (urgency * 0.03); // 80ms down to 50ms
 
+    // Haptic feedback - intensity increases with urgency
+    const vibeDuration = Math.floor(20 + (urgency * 30)); // 20ms to 50ms
+    if (numBeeps === 1) {
+      vibrate(vibeDuration);
+    } else {
+      // Create vibration pattern matching beeps
+      const vibePattern = [];
+      for (let i = 0; i < numBeeps; i++) {
+        vibePattern.push(vibeDuration);
+        if (i < numBeeps - 1) {
+          vibePattern.push(Math.floor(beepSpacing * 1000) - vibeDuration);
+        }
+      }
+      vibrate(vibePattern);
+    }
+
     for (let i = 0; i < numBeeps; i++) {
       const oscillator = ctx.createOscillator();
       const gainNode = ctx.createGain();
@@ -83,6 +126,9 @@ export function playCountdownTick(secondsRemaining, totalDuration = 60) {
 
 // Play success sound (correct guess)
 export function playSuccessSound() {
+  // Haptic: quick double pulse for success
+  vibrate([50, 50, 50]);
+
   try {
     const ctx = getAudioContext();
 
@@ -112,11 +158,16 @@ export function playSuccessSound() {
 
 // Play skip sound
 export function playSkipSound() {
+  // Haptic: single short buzz for skip
+  vibrate(100);
   playBeep(200, 0.2, 0.3);
 }
 
 // Play round end buzzer
 export function playRoundEndSound() {
+  // Haptic: long vibration for round end
+  vibrate(500);
+
   try {
     const ctx = getAudioContext();
 
@@ -141,6 +192,9 @@ export function playRoundEndSound() {
 
 // Play game win fanfare
 export function playWinSound() {
+  // Haptic: celebratory pattern for victory
+  vibrate([100, 50, 100, 50, 200]);
+
   try {
     const ctx = getAudioContext();
 
